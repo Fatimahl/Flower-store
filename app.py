@@ -102,7 +102,7 @@ default_products = [
     {"name": "سفندر ", "cost": 9, "price": 14, "image": "P.jpeg", "available": True},
 ]
 
-if not os.path.exists(products_file):
+if True:
     pd.DataFrame(default_products).to_csv(products_file, index=False)
 
 if not os.path.exists(orders_file):
