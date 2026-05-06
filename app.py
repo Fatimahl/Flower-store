@@ -101,8 +101,7 @@ default_products = [
     {"name": "جراس ", "cost": 10, "price": 3, "image": "O.jpeg", "available": True},
     {"name": "سفندر ", "cost": 9, "price": 3, "image": "P.jpeg", "available": True},
 ]
-
-if True:
+if not os.path.exists(products_file):
     pd.DataFrame(default_products).to_csv(products_file, index=False)
 
 if not os.path.exists(orders_file):
@@ -246,7 +245,7 @@ elif st.session_state.page == "shop":
     st.markdown("## Available Flowers")
 
     products_df = load_products()
-    available_products = products_df[products_df["available"] == True]
+   available_products = products_df
 
     if available_products.empty:
         st.warning("No flowers available right now.")
@@ -292,18 +291,21 @@ elif st.session_state.page == "shop":
                         key="matcha_notes"
                     )
 
-                if st.button("Add to Cart", key=f"add_{product['name']}"):
-                    if quantity > 0:
-                        st.session_state.cart.append({
-                            "name": product["name"],
-                            "price": int(product["price"]),
-                            "cost": int(product["cost"]),
-                            "quantity": int(quantity),
-                            "notes": matcha_notes
-                        })
-                        st.success("Added to cart ✅")
-                    else:
-                        st.warning("Choose quantity first.")
+                if product["available"] == False:
+                    st.error("نفذت الكمية ❌")
+                else:
+                    if st.button("Add to Cart", key=f"add_{product['name']}"):
+                        if quantity > 0:
+                            st.session_state.cart.append({
+                                "name": product["name"],
+                                "price": int(product["price"]),
+                                "cost": int(product["cost"]),
+                                "quantity": int(quantity),
+                                "notes": matcha_notes
+                            })
+                            st.success("Added to cart ✅")
+                        else:
+                            st.warning("Choose quantity first.")
 
                 st.markdown("</div>", unsafe_allow_html=True)
 
