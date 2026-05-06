@@ -84,22 +84,22 @@ except:
 # الأسعار تتعدل من الأدمن
 # ======================
 default_products = [
-    {"name": "ماتشا | Flower Matcha", "cost": 5, "price": 10, "image": "A.jpeg", "available": True},
+    {"name": "ماتشا | Flower Matcha", "cost": 5, "price": 20, "image": "A.jpeg", "available": True},
     {"name": "روز احمر", "cost": 3, "price": 5, "image": "B.jpeg", "available": True},
     {"name": "روز بنفسجي ", "cost": 3, "price": 5, "image": "C.jpeg", "available": True},
-    {"name": " ستاتس بنفسجي", "cost": 4, "price": 7, "image": "D.jpeg", "available": True},
-    {"name": " ستاتس اصفر", "cost": 4, "price": 7, "image": "E.jpeg", "available": True},
-    {"name": "ستاتس وردي ", "cost": 4, "price": 7, "image": "F.jpeg", "available": True},
-    {"name": " بيبي روز اصفر", "cost": 8, "price": 12, "image": "G.jpeg", "available": True},
-    {"name": "بيبي روز ابيض ", "cost": 8, "price": 12, "image": "H.jpeg", "available": True},
-    {"name": "استر", "cost": 5, "price": 9, "image": "I.jpeg", "available": True},
-    {"name": "بيبي روز وردي ", "cost": 5, "price": 9, "image": "J.jpeg", "available": True},
-    {"name": "كريز ازرق ", "cost": 4, "price": 8, "image": "K.jpeg", "available": True},
-    {"name": "كريزاصفر ", "cost": 7, "price": 12, "image": "L.jpeg", "available": True},
-    {"name": "كريز احمر ", "cost": 4, "price": 8, "image": "M.jpeg", "available": True},
-    {"name": "ماتيولا بنفسجي ", "cost": 5, "price": 9, "image": "N.jpeg", "available": True},
-    {"name": "جراس ", "cost": 10, "price": 15, "image": "O.jpeg", "available": True},
-    {"name": "سفندر ", "cost": 9, "price": 14, "image": "P.jpeg", "available": True},
+    {"name": " ستاتس بنفسجي", "cost": 4, "price": 4, "image": "D.jpeg", "available": True},
+    {"name": " ستاتس اصفر", "cost": 4, "price": 4, "image": "E.jpeg", "available": True},
+    {"name": "ستاتس وردي ", "cost": 4, "price": 4, "image": "F.jpeg", "available": True},
+    {"name": " بيبي روز اصفر", "cost": 8, "price": 5, "image": "G.jpeg", "available": True},
+    {"name": "بيبي روز ابيض ", "cost": 8, "price": 5, "image": "H.jpeg", "available": True},
+    {"name": "استر", "cost": 5, "price": 4, "image": "I.jpeg", "available": True},
+    {"name": "بيبي روز وردي ", "cost": 5, "price": 5, "image": "J.jpeg", "available": True},
+    {"name": "كريز ازرق ", "cost": 4, "price": 4, "image": "K.jpeg", "available": True},
+    {"name": "كريزاصفر ", "cost": 7, "price": 4, "image": "L.jpeg", "available": True},
+    {"name": "كريز احمر ", "cost": 4, "price": 4, "image": "M.jpeg", "available": True},
+    {"name": "ماتيولا بنفسجي ", "cost": 5, "price": 5, "image": "N.jpeg", "available": True},
+    {"name": "جراس ", "cost": 10, "price": 3, "image": "O.jpeg", "available": True},
+    {"name": "سفندر ", "cost": 9, "price": 3, "image": "P.jpeg", "available": True},
 ]
 
 if True:
