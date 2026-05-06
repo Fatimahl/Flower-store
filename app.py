@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import base64
 import os
-from PIL import Image
 from datetime import datetime
 import ast
 
@@ -38,12 +37,12 @@ try:
         }}
 
         .stTextInput input,
-        .stNumberInput input {{
+        .stNumberInput input,
+        textarea {{
             background-color: rgba(255,255,255,0.95) !important;
             color: #3f2a2a !important;
             border: 2px solid #b56b78 !important;
             border-radius: 14px !important;
-            height: 52px !important;
         }}
 
         .stButton>button {{
@@ -80,35 +79,27 @@ except:
 
 # ======================
 # Products
-# image = اسم الصورة
 # cost = بكم انتي شريتيه
 # price = بكم بتبيعينه
+# الأسعار تتعدل من الأدمن
 # ======================
 default_products = [
-    {"name": "روز أحمر", "cost": 3, "price": 5, "image": "A.jpeg", "available": True},
-    {"name": "روز خربزي", "cost": 3, "price": 5, "image": "B.jpeg", "available": True},
-    {"name": "بيبي روز فوشي", "cost": 4, "price": 7, "image": "C.jpeg", "available": True},
-    {"name": "بيبي روز أورنج", "cost": 4, "price": 7, "image": "D.jpeg", "available": True},
-    {"name": "بيبي روز موف فاتح", "cost": 4, "price": 7, "image": "E.jpeg", "available": True},
-    {"name": "توليب موف", "cost": 8, "price": 12, "image": "F.jpeg", "available": True},
-    {"name": "توليب بينك فاتح", "cost": 8, "price": 12, "image": "G.jpeg", "available": True},
-    {"name": "هايبركم أحمر", "cost": 5, "price": 9, "image": "H.jpeg", "available": True},
-    {"name": "هايبركم أبيض", "cost": 5, "price": 9, "image": "I.jpeg", "available": True},
-    {"name": "ستاتس موف فاتح", "cost": 4, "price": 8, "image": "J.jpeg", "available": True},
-    {"name": "دوار الشمس", "cost": 7, "price": 12, "image": "K.jpeg", "available": True},
-    {"name": "ستاتس موف", "cost": 4, "price": 8, "image": "L.jpeg", "available": True},
-    {"name": "رسكوس سفندر", "cost": 5, "price": 9, "image": "M.jpeg", "available": True},
-    {"name": "ليليوم ستارجيزر هولندي", "cost": 10, "price": 15, "image": "N.jpeg", "available": True},
-    {"name": "ليليوم أصفر", "cost": 9, "price": 14, "image": "O.jpeg", "available": True},
-    {"name": "ليليوم وردي", "cost": 9, "price": 14, "image": "P.jpeg", "available": True},
-    {"name": "ليليوم أحمر", "cost": 9, "price": 14, "image": "Q.jpeg", "available": True},
-    {"name": "ليليوم أبيض", "cost": 9, "price": 14, "image": "R.jpeg", "available": True},
-    {"name": "توليب وردي", "cost": 8, "price": 12, "image": "S.jpeg", "available": True},
-    {"name": "توليب أحمر", "cost": 8, "price": 12, "image": "T.jpeg", "available": True},
-    {"name": "استرومريا بينك", "cost": 6, "price": 10, "image": "U.jpeg", "available": True},
-    {"name": "كريز أخوان دبل بينك", "cost": 6, "price": 10, "image": "V.jpeg", "available": True},
-    {"name": "كريز أخوان أبيض", "cost": 6, "price": 10, "image": "W.jpeg", "available": True},
-    {"name": "بيبي روز بينك", "cost": 4, "price": 7, "image": "X.jpeg", "available": True},
+    {"name": "ماتشا | Flower Matcha", "cost": 5, "price": 10, "image": "A.jpeg", "available": True},
+    {"name": "روز احمر", "cost": 3, "price": 5, "image": "B.jpeg", "available": True},
+    {"name": "روز بنفسجي ", "cost": 3, "price": 5, "image": "C.jpeg", "available": True},
+    {"name": " ستاتس بنفسجي", "cost": 4, "price": 7, "image": "D.jpeg", "available": True},
+    {"name": " سDDتاتس اصفر", "cost": 4, "price": 7, "image": "E.jpeg", "available": True},
+    {"name": "ستاتس وردي ", "cost": 4, "price": 7, "image": "F.jpeg", "available": True},
+    {"name": " بيبي روز اصفر", "cost": 8, "price": 12, "image": "G.jpeg", "available": True},
+    {"name": "بيبي روز ابيض ", "cost": 8, "price": 12, "image": "H.jpeg", "available": True},
+    {"name": "بيبي روز وردي ", "cost": 5, "price": 9, "image": "I.jpeg", "available": True},
+    {"name": "استر", "cost": 5, "price": 9, "image": "J.jpeg", "available": True},
+    {"name": "كريز ازرق ", "cost": 4, "price": 8, "image": "K.jpeg", "available": True},
+    {"name": "كريزاصفر ", "cost": 7, "price": 12, "image": "L.jpeg", "available": True},
+    {"name": "كريز احمر ", "cost": 4, "price": 8, "image": "M.jpeg", "available": True},
+    {"name": "ماتيولا بنفسجي ", "cost": 5, "price": 9, "image": "N.jpeg", "available": True},
+    {"name": "جراس ", "cost": 10, "price": 15, "image": "O.jpeg", "available": True},
+    {"name": "سفندر ", "cost": 9, "price": 14, "image": "P.jpeg", "available": True},
 ]
 
 if not os.path.exists(products_file):
@@ -116,8 +107,10 @@ if not os.path.exists(products_file):
 
 if not os.path.exists(orders_file):
     pd.DataFrame(columns=[
-        "time", "name", "role", "budget", "items",
-        "total", "cost_total", "profit", "status"
+        "time", "name", "role", "items",
+        "total", "cost_total", "profit",
+        "payment_method", "matcha_notes", "rating",
+        "status"
     ]).to_csv(orders_file, index=False)
 
 
@@ -132,10 +125,16 @@ def save_products(df):
 def load_orders():
     df = pd.read_csv(orders_file)
 
-    needed_columns = ["time", "name", "role", "budget", "items", "total", "cost_total", "profit", "status"]
+    needed_columns = [
+        "time", "name", "role", "items",
+        "total", "cost_total", "profit",
+        "payment_method", "matcha_notes", "rating",
+        "status"
+    ]
+
     for col in needed_columns:
         if col not in df.columns:
-            df[col] = 0 if col in ["budget", "total", "cost_total", "profit"] else ""
+            df[col] = 0 if col in ["total", "cost_total", "profit", "rating"] else ""
 
     return df
 
@@ -171,6 +170,12 @@ if "customer_name" not in st.session_state:
 
 if "role" not in st.session_state:
     st.session_state.role = "Student"
+
+if "payment_method" not in st.session_state:
+    st.session_state.payment_method = ""
+
+if "last_order_status" not in st.session_state:
+    st.session_state.last_order_status = ""
 
 
 side = st.sidebar.radio(
@@ -216,24 +221,21 @@ if st.session_state.page == "start":
         if st.button("Teacher"):
             st.session_state.role = "Teacher"
 
-    budget = 25 if st.session_state.role == "Student" else 50
-
     st.info(f"Selected: {st.session_state.role}")
-    st.info(f"Your available points: {budget} SAR")
-
-    old_orders = load_orders()
 
     if st.session_state.customer_name:
-        previous = old_orders[
-            old_orders["name"].astype(str).str.lower()
+        orders_df = load_orders()
+        customer_orders = orders_df[
+            orders_df["name"].astype(str).str.lower()
             == st.session_state.customer_name.lower()
         ]
 
-        if not previous.empty:
-            st.error("You already ordered before. Your points were used.")
-        else:
-            if st.button("Next: Start Shopping"):
-                go("shop")
+        if not customer_orders.empty:
+            latest_status = customer_orders.iloc[-1]["status"]
+            st.info(f"آخر حالة طلب لك: {latest_status}")
+
+        if st.button("Next: Start Shopping"):
+            go("shop")
 
 
 # ======================
@@ -254,10 +256,11 @@ elif st.session_state.page == "shop":
         for i, product in available_products.iterrows():
             with cols[i % 2]:
                 st.markdown("<div class='box'>", unsafe_allow_html=True)
+
                 try:
                     files = [
                         f for f in os.listdir()
-                        if os.path.splitext(f)[0] in list("ABCDEFGHIJKLMNOPQRSTUVWX")
+                        if os.path.splitext(f)[0] in list("ABCDEFGHIJKLMNOP")
                         and f.lower().endswith(("jpg", "jpeg", "png"))
                     ]
 
@@ -282,13 +285,21 @@ elif st.session_state.page == "shop":
                     key=f"qty_{product['name']}"
                 )
 
+                matcha_notes = ""
+                if "ماتشا" in str(product["name"]) or "Matcha" in str(product["name"]):
+                    matcha_notes = st.text_area(
+                        "كيف تحبي الماتشا؟",
+                        key="matcha_notes"
+                    )
+
                 if st.button("Add to Cart", key=f"add_{product['name']}"):
                     if quantity > 0:
                         st.session_state.cart.append({
                             "name": product["name"],
                             "price": int(product["price"]),
                             "cost": int(product["cost"]),
-                            "quantity": int(quantity)
+                            "quantity": int(quantity),
+                            "notes": matcha_notes
                         })
                         st.success("Added to cart ✅")
                     else:
@@ -314,9 +325,9 @@ elif st.session_state.page == "cart":
 
     st.markdown("## 🛒 Cart & Checkout")
 
-    budget = 25 if st.session_state.role == "Student" else 50
     total = 0
     cost_total = 0
+    all_matcha_notes = []
 
     if st.session_state.cart:
         for item in st.session_state.cart:
@@ -328,30 +339,54 @@ elif st.session_state.page == "cart":
 
             st.write(f"{item['name']} × {item['quantity']} = {item_total} SAR")
 
+            if item.get("notes"):
+                st.write(f"ملاحظات الماتشا: {item['notes']}")
+                all_matcha_notes.append(item["notes"])
+
         profit = total - cost_total
 
         st.write(f"### Total: {total} SAR")
-        st.info(f"Your budget: {budget} SAR")
 
-        if total > budget:
-            st.error("You do not have enough points.")
-        else:
-            if st.button("Submit Order"):
+        st.markdown("### اختاري طريقة الدفع")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("تحويل"):
+                st.session_state.payment_method = "تحويل"
+
+        with col2:
+            if st.button("كاش"):
+                st.session_state.payment_method = "كاش"
+
+        if st.session_state.payment_method:
+            st.success(f"طريقة الدفع: {st.session_state.payment_method}")
+
+        rating = st.slider("قيّمي خدمتنا من خمس نجوم ⭐", 1, 5, 5)
+
+        if st.button("Submit Order"):
+            if not st.session_state.payment_method:
+                st.warning("اختاري طريقة الدفع قبل إرسال الطلب.")
+            else:
                 order = {
                     "time": datetime.now().strftime("%Y-%m-%d %H:%M"),
                     "name": st.session_state.customer_name,
                     "role": st.session_state.role,
-                    "budget": budget,
                     "items": str(st.session_state.cart),
                     "total": total,
                     "cost_total": cost_total,
                     "profit": profit,
-                    "status": "Waiting"
+                    "payment_method": st.session_state.payment_method,
+                    "matcha_notes": " | ".join(all_matcha_notes),
+                    "rating": rating,
+                    "status": "قيد الانتظار"
                 }
 
                 save_order(order)
                 st.session_state.cart = []
-                st.success("Your order has been sent successfully 🌸")
+                st.session_state.last_order_status = "قيد الانتظار"
+                st.success("تم إرسال طلبك 🌸 حالة الطلب: قيد الانتظار")
+                st.toast("تم إرسال الطلب بنجاح 🌸")
                 st.balloons()
 
     else:
@@ -384,12 +419,18 @@ elif st.session_state.page == "admin":
         if df.empty:
             st.info("No orders yet.")
         else:
+            df["delete"] = False
+
             edited_df = st.data_editor(
                 df,
                 column_config={
                     "status": st.column_config.SelectboxColumn(
                         "status",
-                        options=["Waiting", "Ready for pickup", "Received"]
+                        options=["قيد الانتظار", "قيد التجهيز", "تم التجهيز", "تم الاستلام"]
+                    ),
+                    "delete": st.column_config.CheckboxColumn(
+                        "Delete",
+                        help="اختاري هذا المربع لحذف الطلب"
                     )
                 },
                 hide_index=True,
@@ -397,8 +438,10 @@ elif st.session_state.page == "admin":
             )
 
             if st.button("Save Order Changes"):
+                edited_df = edited_df[edited_df["delete"] == False]
+                edited_df = edited_df.drop(columns=["delete"])
                 edited_df.to_csv(orders_file, index=False)
-                st.success("Order status updated ✅")
+                st.success("Order changes saved ✅")
 
         st.markdown("---")
         st.markdown("### Product Settings")
@@ -422,7 +465,6 @@ elif st.session_state.page == "admin":
             save_products(edited_products)
             st.success("Products updated ✅")
 
-
 # ======================
 # Statistics Page
 # ======================
@@ -437,40 +479,88 @@ elif st.session_state.page == "stats":
         if df.empty:
             st.info("No sales yet.")
         else:
-            total_sales = df["total"].sum()
-            total_cost = df["cost_total"].sum()
-            total_profit = df["profit"].sum()
+            matcha_sales = 0
+            matcha_cost = 0
+            matcha_profit = 0
+            matcha_count = 0
 
-            col1, col2, col3 = st.columns(3)
+            flower_sales = 0
+            flower_cost = 0
+            flower_profit = 0
+            flower_count = 0
 
-            with col1:
-                st.metric("Total Sales", f"{total_sales} SAR")
-
-            with col2:
-                st.metric("Total Cost", f"{total_cost} SAR")
-
-            with col3:
-                st.metric("Total Profit", f"{total_profit} SAR")
-
-            st.metric("Number of Orders", len(df))
-
-            flower_count = {}
+            flower_items_count = {}
 
             for items in df["items"]:
                 try:
                     items_list = ast.literal_eval(items)
+
                     for item in items_list:
-                        flower_count[item["name"]] = flower_count.get(item["name"], 0) + item["quantity"]
+                        item_name = str(item["name"])
+                        quantity = int(item["quantity"])
+                        item_sales = int(item["price"]) * quantity
+                        item_cost = int(item["cost"]) * quantity
+                        item_profit = item_sales - item_cost
+
+                        if "ماتشا" in item_name or "Matcha" in item_name:
+                            matcha_sales += item_sales
+                            matcha_cost += item_cost
+                            matcha_profit += item_profit
+                            matcha_count += quantity
+                        else:
+                            flower_sales += item_sales
+                            flower_cost += item_cost
+                            flower_profit += item_profit
+                            flower_count += quantity
+                            flower_items_count[item_name] = flower_items_count.get(item_name, 0) + quantity
+
                 except:
                     pass
 
-            if flower_count:
+            st.markdown("## 🍵 Matcha Statistics")
+
+            col1, col2, col3, col4 = st.columns(4)
+
+            with col1:
+                st.metric("Matcha Sales", f"{matcha_sales} SAR")
+
+            with col2:
+                st.metric("Matcha Cost", f"{matcha_cost} SAR")
+
+            with col3:
+                st.metric("Matcha Profit", f"{matcha_profit} SAR")
+
+            with col4:
+                st.metric("Matcha Sold Count", matcha_count)
+
+            st.markdown("---")
+
+            st.markdown("## 🌸 Flower Statistics")
+
+            col1, col2, col3, col4 = st.columns(4)
+
+            with col1:
+                st.metric("Flower Sales", f"{flower_sales} SAR")
+
+            with col2:
+                st.metric("Flower Cost", f"{flower_cost} SAR")
+
+            with col3:
+                st.metric("Flower Profit", f"{flower_profit} SAR")
+
+            with col4:
+                st.metric("Flower Sold Count", flower_count)
+
+            if "rating" in df.columns:
+                st.metric("Average Rating", f"{df['rating'].mean():.1f} ⭐")
+
+            if flower_items_count:
                 stats_df = pd.DataFrame({
-                    "Flower Type": list(flower_count.keys()),
-                    "Sold Count": list(flower_count.values())
+                    "Flower Type": list(flower_items_count.keys()),
+                    "Sold Count": list(flower_items_count.values())
                 })
 
                 st.bar_chart(stats_df.set_index("Flower Type"))
 
-                best = max(flower_count, key=flower_count.get)
+                best = max(flower_items_count, key=flower_items_count.get)
                 st.success(f"Most sold flower: {best} 🌸")
