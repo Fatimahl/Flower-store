@@ -244,8 +244,8 @@ elif st.session_state.page == "shop":
 
     st.markdown("## Available Flowers")
 
-   products_df = load_products()
-   available_products = products_df
+    products_df = load_products()
+    available_products = products_df
 
     if available_products.empty:
         st.warning("No flowers available right now.")
@@ -272,7 +272,7 @@ elif st.session_state.page == "shop":
 
                 except:
                     st.warning("ما انعرضت الصورة")
-                                
+
                 st.subheader(product["name"])
                 st.write(f"Price: {product['price']} SAR")
 
@@ -285,6 +285,7 @@ elif st.session_state.page == "shop":
                 )
 
                 matcha_notes = ""
+
                 if "ماتشا" in str(product["name"]) or "Matcha" in str(product["name"]):
                     matcha_notes = st.text_area(
                         "كيف تحبي الماتشا؟",
@@ -293,8 +294,10 @@ elif st.session_state.page == "shop":
 
                 if product["available"] == False:
                     st.error("نفذت الكمية ❌")
+
                 else:
                     if st.button("Add to Cart", key=f"add_{product['name']}"):
+
                         if quantity > 0:
                             st.session_state.cart.append({
                                 "name": product["name"],
@@ -303,7 +306,9 @@ elif st.session_state.page == "shop":
                                 "quantity": int(quantity),
                                 "notes": matcha_notes
                             })
+
                             st.success("Added to cart ✅")
+
                         else:
                             st.warning("Choose quantity first.")
 
@@ -318,8 +323,6 @@ elif st.session_state.page == "shop":
     with col2:
         if st.button("Next: Cart"):
             go("cart")
-
-
 # ======================
 # Cart Page
 # ======================
