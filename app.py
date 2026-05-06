@@ -244,7 +244,7 @@ elif st.session_state.page == "shop":
 
     st.markdown("## Available Flowers")
 
-    products_df = load_products()
+   products_df = load_products()
    available_products = products_df
 
     if available_products.empty:
